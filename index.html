@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Background Color</title>
+	<style>
+        #textContainer {
+            position: relative;
+        }
+
+        #resetButton {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: white;
+            border: 1px solid red;
+            cursor: pointer;
+        }
+		#fetchButton {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            background-color: white;
+            border: 1px solid blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="textContainer"></div> <!-- Add a container for displaying the text -->
+
+<audio id="flacPlayer" controls></audio>
+
+<script>
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const audioElement = document.getElementById('flacPlayer');
+  const source = audioContext.createMediaElementSource(audioElement);
+  
+  // Load your FLAC file
+  fetch('https://github.com/a1s2d3f4g5q1w2e3/JSPianoBalls/raw/main/TestAudioFileLoudA.flac?raw=true&origin=https://www.anatolylarkin.com', {mode: 'no-cors'});	
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+      source.buffer = audioBuffer;
+      source.connect(audioContext.destination);
+    })
+    .catch(error => console.error('Error loading FLAC file:', error));
+  
+  // Add click event listener to the iframe element
+  const iframe = document.getElementById('your-iframe-id');
+  iframe.addEventListener('click', () => {
+    audioElement.play();
+  });
+</script>
+
+</body>
+</html>
